@@ -1,0 +1,28 @@
+# This 
+#   1. pulls ubuntu
+#   2. pushes ubuntu to private repo
+#   2. builds wordpress-developer
+#   3. pushes wordpress-developer to private repo
+#
+version: "1.0"
+
+images:
+  ubuntu:
+    pull: ubuntu:${UBUNTU_RELEASE}
+    push:
+      private-registry:
+  
+  wordpress_developer:
+    depends_on: ubuntu
+    build:
+      tag: wordpress-developer:1.0.0
+      context: ${CONTEXT}
+      args: 
+        UBUNTU_TAG: latest
+    push:
+      private-registry:
+        repository: ${OWNER}
+
+registries:
+  private-registry:
+    url: ${REGISTRY_PRIVATE_URL}
