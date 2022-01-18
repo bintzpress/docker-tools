@@ -104,7 +104,7 @@ func Push(dir string, bc *buildConfig.BuildConfig, imageName string) error {
 			url, exists = regMap["url"]
 			if exists {
 				new_tag = url + "/"
-			} else {
+			} else if registry != "docker-hub" { // if docker-hub its okay to leave off url
 				return errors.New("Missing registry url")
 			}
 			repository, exists = pushMap["repository"]
