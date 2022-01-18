@@ -1,4 +1,4 @@
-module github.com/bintzpress/docker-builder
+module github.com/bintzpress/docker-build
 
 go 1.17
 

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/bintzpress/docker-builder/internal/buildConfig"
-	"github.com/bintzpress/docker-builder/internal/commandExecutor"
-	"github.com/bintzpress/docker-builder/internal/localConfig"
-	"github.com/bintzpress/docker-builder/internal/setConfig"
+	"github.com/bintzpress/docker-build/internal/buildConfig"
+	"github.com/bintzpress/docker-build/internal/commandExecutor"
+	"github.com/bintzpress/docker-build/internal/localConfig"
+	"github.com/bintzpress/docker-build/internal/setConfig"
 
 	"errors"
 	"flag"

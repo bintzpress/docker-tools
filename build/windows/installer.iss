@@ -5,7 +5,7 @@
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "Bintz Press"
 #define MyAppURL "https://bintzpress.com"
-#define MyAppExeName "docker-builder.exe"
+#define MyAppExeName "docker-build.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -25,7 +25,7 @@ LicenseFile=..\..\LICENSE.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=..\..\target\windows
-OutputBaseFilename=docker-builder-install
+OutputBaseFilename=docker-build-install
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

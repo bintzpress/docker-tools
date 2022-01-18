@@ -10,7 +10,7 @@ if (Test-Path -Path ..\..\target\windows) {
 }
 New-Item -Path "..\..\target" -Name "windows" -ItemType "directory"
 Set-Location ..\..\target\windows
-go build ..\..\cmd\docker-builder
+go build ..\..\cmd\docker-build
 ISCC.exe ..\..\build\windows\installer.iss
 
 # Return to the directory started at

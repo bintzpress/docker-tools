@@ -1,8 +1,8 @@
 package commandExecutor
 
 import (
-	"github.com/bintzpress/docker-builder/internal/buildConfig"
-	"github.com/bintzpress/docker-builder/internal/dependencyResolver"
+	"github.com/bintzpress/docker-build/internal/buildConfig"
+	"github.com/bintzpress/docker-build/internal/dependencyResolver"
 
 	"errors"
 	"os"

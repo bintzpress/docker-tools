@@ -1,8 +1,8 @@
 package buildConfig
 
 import (
-	"github.com/bintzpress/docker-builder/internal/dependencyResolver"
-	"github.com/bintzpress/docker-builder/internal/localConfig"
+	"github.com/bintzpress/docker-build/internal/dependencyResolver"
+	"github.com/bintzpress/docker-build/internal/localConfig"
 
 	"errors"
 	"fmt"
@@ -14,7 +14,7 @@ import (
 
 func LoadConfig(dir string, lc *localConfig.LocalConfig) (*BuildConfig, error) {
 	dependencyResolver.Initialize()
-	data, err := ioutil.ReadFile(dir + "docker-builder.yml")
+	data, err := ioutil.ReadFile(dir + "docker-build.yml")
 	if err != nil {
 		fmt.Printf("Error reading file: %v\n", err)
 		return nil, err

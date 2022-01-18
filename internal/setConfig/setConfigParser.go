@@ -8,7 +8,7 @@ import (
 )
 
 func LoadConfig(dir string) (*SetConfig, error) {
-	data, err := ioutil.ReadFile(dir + "docker-builder-set.yml")
+	data, err := ioutil.ReadFile(dir + "docker-build-set.yml")
 	if err != nil {
 		return nil, err
 	}
