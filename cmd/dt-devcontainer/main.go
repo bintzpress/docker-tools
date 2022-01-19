@@ -12,8 +12,8 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/bintzpress/docker-build/internal/copy"
-	"github.com/bintzpress/docker-build/internal/devContainer/templateConfig"
+	"github.com/bintzpress/docker-tools/internal/copy"
+	"github.com/bintzpress/docker-tools/internal/devContainer/templateConfig"
 	"golang.org/x/sys/windows/registry"
 )
 

@@ -37,8 +37,8 @@ ArchitecturesInstallIn64BitMode=x64
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\..\target\windows\docker-build.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\target\windows\docker-devcontainer.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\target\windows\dt-build.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\target\windows\dt-devcontainer.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\templates\*"; DestDir: "{app}\templates"; Flags: recursesubdirs createallsubdirs
 Source: "EditPath.exe"; DestDir: "{app}"; AfterInstall: MyAfterInstall
 
