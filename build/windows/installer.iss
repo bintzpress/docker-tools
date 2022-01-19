@@ -6,7 +6,7 @@
 #endif
 
 #define MyAppName "Docker Tools"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "Bintz Press"
 #define MyAppURL "https://bintzpress.com"
 
