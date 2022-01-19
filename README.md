@@ -28,6 +28,10 @@ docker-devcontainer init --template wordpress-developer  --name newproject --tit
 
 - Once you have setup your .env files you can click on the bottom left in VS Code and select "Reopen in container". This will open the stack in a devcontainer. For the wordpress stack you will be in the projects directory on the wordpress-developer container.
 
+## Credits
+
+I am using EditPath.exe from the [PathMgr](https://github.com/Bill-Stewart/PathMgr) project to add and remove the docker-tools to the system path on Windows. I've included it in the build\windows directory to make it easier to build windows installers.
+
 ## About Me
 
 My name is Brian Bintz. I am a freelance writer, developer, and trainer. Check out my profile on [GitHub](https://github.com/bintzpress) for more details on me. If you have any issues with this project please contact me at brian@bintzpress.com.
