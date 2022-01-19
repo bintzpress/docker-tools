@@ -9,10 +9,10 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}\\cmd\\docker-build",
+            "program": "${workspaceFolder}/cmd/docker-build",
             "args": [
                 "-d",
-                "..\\..\\examples\\wordpress-development-images"
+                "../../examples/wordpress-development-images"
             ]
         },
         {
@@ -20,7 +20,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}\\cmd\\docker-devcontainer",
+            "program": "${workspaceFolder}/cmd/docker-devcontainer",
             "args": [
                 "init",
                 "--name",
@@ -28,11 +28,11 @@
                 "--title",
                 "Abaloo-LLC",
                 "--stack",
-                "..\\..\\..\\..\\stacks\\wordpress-development-stack",
-                "--templateDir",
-                "..\\..\\templates\\wordpress-developer",
+                "wordpress-development-stack",
+                "--template",
+                "wordpress-developer",
                 "--destination",
-                "..\\..\\test\\output",
+                "../../test/output",
                 "--author",
                 "Philmo Faleshin"
             ]

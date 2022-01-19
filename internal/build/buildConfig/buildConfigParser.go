@@ -1,8 +1,8 @@
 package buildConfig
 
 import (
-	"github.com/bintzpress/docker-build/internal/build/dependencyResolver"
-	"github.com/bintzpress/docker-build/internal/build/localConfig"
+	"github.com/bintzpress/docker-tools/internal/build/dependencyResolver"
+	"github.com/bintzpress/docker-tools/internal/build/localConfig"
 
 	"errors"
 	"fmt"

@@ -1,2 +1,2 @@
-.devcontainer/.env*
-.devcontainer/!.env*_sample
+.env*
+!.env*_sample

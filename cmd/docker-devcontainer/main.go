@@ -9,12 +9,10 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"runtime"
 	"strings"
 
-	"github.com/bintzpress/docker-build/internal/copy"
-	"github.com/bintzpress/docker-build/internal/devContainer/templateConfig"
-	"golang.org/x/sys/windows/registry"
+	"github.com/bintzpress/docker-tools/internal/copy"
+	"github.com/bintzpress/docker-tools/internal/devContainer/templateConfig"
 )
 
 type CommandConfig struct {
@@ -130,12 +128,14 @@ func parseArguments(config *CommandConfig) error {
 					if config.Destination == "" {
 						config.Destination = "." + string(os.PathSeparator)
 					}
-					out, err = filepath.Abs(config.Stack)
-					if err == nil {
-						config.Stack = ensureEndsWithPathSeparator(out)
-					} else { // we will just use what we have
-						config.Stack = ensureEndsWithPathSeparator(config.Stack)
-						err = nil // ignore the error
+					if strings.Contains(config.Stack, string(os.PathSeparator)) {
+						out, err = filepath.Abs(config.Stack)
+						if err == nil {
+							config.Stack = ensureEndsWithPathSeparator(out)
+						} else { // we will just use what we have
+							config.Stack = ensureEndsWithPathSeparator(config.Stack)
+							err = nil // ignore the error
+						}
 					}
 					config.Template = ensureEndsWithPathSeparator(config.Template)
 					config.Destination = ensureEndsWithPathSeparator(config.Destination)
@@ -146,28 +146,9 @@ func parseArguments(config *CommandConfig) error {
 	return err
 }
 
-func getTemplateBaseDir() (string, error) {
-	var err error
-	var installPath string
-
-	if runtime.GOOS == "windows" {
-		regInfo, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Bintz Press\Docker Tools`, registry.QUERY_VALUE)
-		if err == nil {
-			defer regInfo.Close()
-			installPath, _, err = regInfo.GetStringValue("InstallPath")
-		}
-	}
-
-	if installPath != "" {
-		return installPath + string(os.PathSeparator) + "templates" + string(os.PathSeparator), err
-	} else {
-		return "", errors.New("Unable to find template base directory")
-	}
-}
-
 func listTemplates() error {
 	var fds []fs.FileInfo
-	dir, err := getTemplateBaseDir()
+	dir, err := templateConfig.GetTemplateBaseDir()
 	if err == nil {
 		if fds, err = ioutil.ReadDir(dir); err != nil {
 			return err
@@ -187,7 +168,7 @@ func verifyIncludedTemplate(exefp string, tn string) (string, error) {
 	var baseDir string
 	var out string
 
-	baseDir, err = getTemplateBaseDir()
+	baseDir, err = templateConfig.GetTemplateBaseDir()
 	if err == nil {
 		_, err = os.Stat(baseDir + tn)
 		if err == nil {
@@ -374,26 +355,34 @@ func RecursiveReplaceTextInDir(dir string, action func(string, *map[string]strin
 	return err
 }
 
-func makeDockerComposeFilesReplacement(dir string) (string, error) {
+func makeDockerComposeFilesReplacement(stackDir string) (string, error) {
 	var err error
 	var fds []os.FileInfo
 	var re *regexp.Regexp
+	var dir string
+	var pathWithLocalEnv string
 
+	if strings.Contains(stackDir, string(os.PathSeparator)) {
+		// we have a full path
+		dir = stackDir
+		pathWithLocalEnv = dir
+	} else {
+		// we have a name of a stack
+		dir = os.Getenv("DockerToolsStackPath") + string(os.PathSeparator) + stackDir + string(os.PathSeparator)
+		pathWithLocalEnv = `${localEnv:DockerToolsStackPath}` + string(os.PathSeparator) + stackDir + string(os.PathSeparator)
+	}
 	if fds, err = ioutil.ReadDir(dir); err != nil {
 		return "", err
 	}
-
 	var out string
 
 	re, err = regexp.Compile(`docker-compose[a-zA-Z0-9\_\-]+\.yml`)
 	for _, fd := range fds {
-		dirfp := dir + fd.Name()
-		dirfp = strings.Replace(dirfp, `\`, `\\`, -1) // need to escape backslashes if using
 		if re.MatchString(fd.Name()) {
 			if out == "" {
-				out = "\"" + dirfp + "\""
+				out = `"` + pathWithLocalEnv + fd.Name() + `"`
 			} else {
-				out = out + ",\n\"" + dirfp + "\""
+				out = out + ",\n\t\t\"" + pathWithLocalEnv + fd.Name() + "\""
 			}
 		}
 	}
@@ -410,17 +399,22 @@ func copyEnvFiles(destDir string, srcDir string) error {
 	var re *regexp.Regexp
 	var dirfp string
 
+	if !strings.Contains(srcDir, string(os.PathSeparator)) {
+		// we have a name of a stack
+		srcDir = os.Getenv("DockerToolsStackPath") + string(os.PathSeparator) + srcDir + string(os.PathSeparator)
+	}
+
 	if fds, err = ioutil.ReadDir(srcDir); err != nil {
 		return err
 	}
 
 	re, err = regexp.Compile(`.env(?:[\w\_\-]+)*`)
 	for _, fd := range fds {
-		dirfp = srcDir + string(os.PathSeparator) + fd.Name()
+		dirfp = srcDir + fd.Name()
 
 		if re.MatchString(fd.Name()) {
 			fmt.Println("Found env file " + fd.Name())
-			err = copy.FileCopy(dirfp, destDir+"stack"+string(os.PathSeparator)+".devcontainer"+string(os.PathSeparator)+fd.Name())
+			err = copy.FileCopy(dirfp, destDir+"stack"+string(os.PathSeparator)+fd.Name())
 		}
 	}
 
