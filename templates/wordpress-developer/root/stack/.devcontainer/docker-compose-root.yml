@@ -1,0 +1,4 @@
+# This is required so that the .env file is read from the .devcontainer directory
+# Do not remove or edit.
+
+version: "3.9"

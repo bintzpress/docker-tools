@@ -1,7 +1,0 @@
-version: "1.0"
-images:
-  image1:
-    depends_on: image2
-  image2:
-    depends_on: image1
-

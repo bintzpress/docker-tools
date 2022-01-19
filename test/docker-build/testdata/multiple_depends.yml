@@ -1,0 +1,7 @@
+version: "1.0"
+images:
+  image1:
+  image2:
+    depends_on: image1
+  image3:
+    depends_on: image1

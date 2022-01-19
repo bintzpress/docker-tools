@@ -1,0 +1,35 @@
+#
+# This docker-compose.yml is used
+# to bring up a WordPress development
+# environment that includes
+#
+#     - MySQL server container for WordPress database
+#     - WordPress container using apache
+#     - HAProxy container to act as reverse proxy
+#
+
+version: "3.9"
+services:
+  db:
+    image: mysql:${MYSQL_TAG}
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wordpress:
+    image: bintzpress/wordpress-development:wordpress-groupperm-${WORDPRESS_TAG}
+    ports:
+      - 127.0.0.1:9080:80
+    depends_on:
+      - db
+    volumes:
+      - wordpress_data:/var/www/html
+    env_file: .env_wordpress
+
+volumes:
+  db_data:
+  wordpress_data:

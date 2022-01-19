@@ -1,9 +1,0 @@
-#
-#
-#
-
-version: "1.0"
-
-set:
-  - wordpress-developer
-  - wordpress-groupperm
