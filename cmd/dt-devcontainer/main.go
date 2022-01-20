@@ -370,6 +370,8 @@ func makeDockerComposeFilesReplacement(stackDir string) (string, error) {
 		// we have a name of a stack
 		dir = os.Getenv("DockerToolsStackPath") + string(os.PathSeparator) + stackDir + string(os.PathSeparator)
 		pathWithLocalEnv = `${localEnv:DockerToolsStackPath}` + string(os.PathSeparator) + stackDir + string(os.PathSeparator)
+		// we want to replace the \ with / because it'll avoid escaping and is separated
+		pathWithLocalEnv = strings.Replace(pathWithLocalEnv, "\\", "/", -1)
 	}
 	if fds, err = ioutil.ReadDir(dir); err != nil {
 		return "", err
